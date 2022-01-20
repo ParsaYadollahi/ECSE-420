@@ -25,7 +25,15 @@ public class MatrixMultiplication {
 	 * @return the result of the multiplication
 	 * */
 	public static double[][] sequentialMultiplyMatrix(double[][] a, double[][] b) {
-		
+		double[][] result_matrix = new double[MATRIX_SIZE][MATRIX_SIZE];
+		for (int i = 0; i < MATRIX_SIZE; i++) {
+			for (int j = 0; j < MATRIX_SIZE; j++) {
+				for (int k = 0; k < MATRIX_SIZE; k++){
+					result_matrix[i][j] += a[i][k] * b[k][j];
+				}
+			}
+		}
+		return result_matrix;
 	}
 	
 	/**
@@ -36,8 +44,9 @@ public class MatrixMultiplication {
 	 * @return the result of the multiplication
 	 * */
         public static double[][] parallelMultiplyMatrix(double[][] a, double[][] b) {
-		
-	}
+
+			return a;
+		}
         
         /**
          * Populates a matrix of given size with randomly generated integers between 0-10.
