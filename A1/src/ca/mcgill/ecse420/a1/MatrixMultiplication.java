@@ -2,6 +2,7 @@ package ca.mcgill.ecse420.a1;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class MatrixMultiplication {
 	
@@ -44,8 +45,50 @@ public class MatrixMultiplication {
 	 * @return the result of the multiplication
 	 * */
         public static double[][] parallelMultiplyMatrix(double[][] a, double[][] b) {
+        	double[][] result_matrix = new double[MATRIX_SIZE][MATRIX_SIZE];
 
-			return a;
+        	try {
+        		// Create a thread pool
+				ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_THREADS);
+
+				for (int i = 0; i < MATRIX_SIZE; i++) {
+					for (int j = 0; j < MATRIX_SIZE; j++) {
+						executorService.execute(new ParallelMultiply(a.length, b.length, a, b, result_matrix));
+					}
+				}
+
+				// No other threads accept tasks
+				executorService.shutdown();
+
+				// Wait for threads to finish
+				executorService.awaitTermination(5, TimeUnit.SECONDS);
+				System.out.println("Multiplication succeessfully terminated: " + executorService.isTerminated());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			return result_matrix;
+		}
+
+		static class ParallelMultiply implements Runnable {
+			private int row;
+			private  int col;
+			private double[][] a;
+			private double[][] b;
+			private double[][] result_matrix;
+
+			ParallelMultiply(int row, int col, double[][] a, double[][] b, double[][] result_matrix) {
+				this.row = row;
+				this.col = col;
+				this.a = a;
+				this.b = b;
+				this.result_matrix = result_matrix;
+			}
+
+			public void run() {
+				for (int k = 0; k < MATRIX_SIZE; k++) {
+					result_matrix[row][col] += a[row][k] * b[k][col];
+				}
+			}
 		}
         
         /**
