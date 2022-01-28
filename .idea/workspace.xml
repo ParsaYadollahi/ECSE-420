@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="c3c8809b-40ee-44df-beb9-f1323553cf60" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="241hsyRIlzgMhHSA6Qk9ISmXVeD" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="settings.editor.selected.configurable" value="vcs.Subversion.SSH" />
+  </component>
+  <component name="RunManager">
+    <configuration name="MatrixMultiplication" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ca.mcgill.ecse420.a1.MatrixMultiplication" />
+      <module name="ECSE-420" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="ca.mcgill.ecse420.a1.MatrixMultiplication" />
+      <module name="ECSE-420" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="ServiceViewManager">
+    <option name="viewStates">
+      <list>
+        <serviceView>
+          <treeState>
+            <expand />
+            <select />
+          </treeState>
+        </serviceView>
+      </list>
+    </option>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c3c8809b-40ee-44df-beb9-f1323553cf60" name="Default Changelist" comment="" />
+      <created>1642804210171</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1642804210171</updated>
+      <workItem from="1642804212866" duration="8000" />
+      <workItem from="1642804338401" duration="640000" />
+      <workItem from="1643073178528" duration="392000" />
+      <workItem from="1643076834504" duration="598000" />
+      <workItem from="1643175646072" duration="478000" />
+      <workItem from="1643211574911" duration="1151000" />
+      <workItem from="1643333581744" duration="442000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="104" y="271" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1642804467090">
+      <screen x="0" y="25" width="1920" height="1175" />
+    </state>
+    <state x="104" y="271" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.25.1920.1175@0.25.1920.1175" timestamp="1642804467090" />
+    <state x="377" y="400" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1642804436829">
+      <screen x="0" y="25" width="1920" height="1175" />
+    </state>
+    <state x="377" y="400" key="#com.intellij.ide.util.TreeClassChooserDialog/0.25.1920.1175@0.25.1920.1175" timestamp="1642804436829" />
+    <state width="1238" height="402" key="GridCell.Tab.0.bottom" timestamp="1642804715159">
+      <screen x="0" y="25" width="1920" height="1175" />
+    </state>
+    <state width="1238" height="402" key="GridCell.Tab.0.bottom/0.25.1920.1175@0.25.1920.1175" timestamp="1642804715159" />
+    <state width="1238" height="402" key="GridCell.Tab.0.center" timestamp="1642804715043">
+      <screen x="0" y="25" width="1920" height="1175" />
+    </state>
+    <state width="1238" height="402" key="GridCell.Tab.0.center/0.25.1920.1175@0.25.1920.1175" timestamp="1642804715043" />
+    <state width="1238" height="402" key="GridCell.Tab.0.left" timestamp="1642804715025">
+      <screen x="0" y="25" width="1920" height="1175" />
+    </state>
+    <state width="1238" height="402" key="GridCell.Tab.0.left/0.25.1920.1175@0.25.1920.1175" timestamp="1642804715025" />
+    <state width="1238" height="402" key="GridCell.Tab.0.right" timestamp="1642804715058">
+      <screen x="0" y="25" width="1920" height="1175" />
+    </state>
+    <state width="1238" height="402" key="GridCell.Tab.0.right/0.25.1920.1175@0.25.1920.1175" timestamp="1642804715058" />
+    <state x="270" y="-1072" key="SettingsEditor" timestamp="1643333485303">
+      <screen x="-958" y="-1415" width="3440" height="1415" />
+    </state>
+    <state x="270" y="-1072" key="SettingsEditor/-958.-1415.3440.1415/0.25.1680.978@-958.-1415.3440.1415" timestamp="1643333485303" />
+    <state x="-958" y="-1415" width="1146" height="1415" key="com.intellij.ide.util.TipDialog" timestamp="1643333585244">
+      <screen x="-958" y="-1415" width="3440" height="1415" />
+    </state>
+    <state x="-958" y="-1415" width="1146" height="1415" key="com.intellij.ide.util.TipDialog/-958.-1415.3440.1415/0.25.1680.978@-958.-1415.3440.1415" timestamp="1643333585244" />
+    <state x="317" y="424" key="com.intellij.ide.util.TipDialog/0.25.1920.1128@0.25.1920.1128" timestamp="1643077476108" />
+    <state x="317" y="441" key="com.intellij.ide.util.TipDialog/0.25.1920.1175@0.25.1920.1175" timestamp="1642804339912" />
+  </component>
+</project>
