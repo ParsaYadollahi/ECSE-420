@@ -26,15 +26,25 @@ public class MatrixMultiplication {
 	 * @return the result of the multiplication
 	 * */
 	public static double[][] sequentialMultiplyMatrix(double[][] a, double[][] b) {
-		double[][] result_matrix = new double[MATRIX_SIZE][MATRIX_SIZE];
-		for (int i = 0; i < MATRIX_SIZE; i++) {
-			for (int j = 0; j < MATRIX_SIZE; j++) {
-				for (int k = 0; k < MATRIX_SIZE; k++){
-					result_matrix[i][j] += a[i][k] * b[k][j];
+    int aRows = a.length;
+    int bRows = b.length;
+    int bColumns = b[0].length;
+    int aColumns = a[0].length;
+		double[][] c = new double[aRows][bColumns];
+
+    // Throw exception if matrix dimensions are invalid
+    if (aColumns != bRows) {
+      throw new ArithmeticException("Invalid matrix dimensions");
+    }
+
+		for (int i = 0; i < aRows; i++) {
+			for (int j = 0; j < bColumns; j++) {
+				for (int k = 0; k < aColumns; k++){
+					c[i][j] += a[i][k] * b[k][j];
 				}
 			}
 		}
-		return result_matrix;
+		return c;
 	}
 
 	/**
@@ -45,15 +55,24 @@ public class MatrixMultiplication {
 	 * @return the result of the multiplication
 	 * */
 	public static double[][] parallelMultiplyMatrix(double[][] a, double[][] b) {
-		double[][] result_matrix = new double[MATRIX_SIZE][MATRIX_SIZE];
+    int aRows = a.length;
+    int bRows = b.length;
+    int bColumns = b[0].length;
+    int aColumns = a[0].length;
+		double[][] c = new double[aRows][bColumns];
+
+    // Throw exception if matrix dimensions are invalid
+    if (aColumns != bRows) {
+      throw new ArithmeticException("Invalid matrix dimensions");
+    }
 
 		try {
 			// Create a thread pool
 			ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_THREADS);
 
-			for (int i = 0; i < MATRIX_SIZE; i++) {
-				for (int j = 0; j < MATRIX_SIZE; j++) {
-					executorService.execute(new ParallelMultiply(a.length, b.length, a, b, result_matrix));
+			for (int i = 0; i < aRows; i++) {
+				for (int j = 0; j < bColumns; j++) {
+					executorService.execute(new ParallelMultiply(i, j, a, b, c));
 				}
 			}
 
@@ -66,7 +85,7 @@ public class MatrixMultiplication {
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-		return result_matrix;
+		return c;
 	}
 
 	static class ParallelMultiply implements Runnable {
@@ -74,19 +93,19 @@ public class MatrixMultiplication {
 		private  int col;
 		private double[][] a;
 		private double[][] b;
-		private double[][] result_matrix;
+		private double[][] c;
 
 		ParallelMultiply(int row, int col, double[][] a, double[][] b, double[][] result_matrix) {
 			this.row = row;
 			this.col = col;
 			this.a = a;
 			this.b = b;
-			this.result_matrix = result_matrix;
+			this.c = result_matrix;
 		}
 
 		public void run() {
 			for (int k = 0; k < MATRIX_SIZE; k++) {
-				result_matrix[row][col] += a[row][k] * b[k][col];
+				c[row][col] += a[row][k] * b[k][col];
 			}
 		}
 	}
