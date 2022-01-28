@@ -14,8 +14,16 @@ public class MatrixMultiplication {
 		// Generate two random matrices, same size
 		double[][] a = generateRandomMatrix(MATRIX_SIZE, MATRIX_SIZE);
 		double[][] b = generateRandomMatrix(MATRIX_SIZE, MATRIX_SIZE);
+
+    long begin = System.currentTimeMillis();
 		sequentialMultiplyMatrix(a, b);
+    long end = System.currentTimeMillis();
+    System.out.println("Time sequentialMultiplyMatrix: " + (end - begin));
+
+    begin = System.currentTimeMillis();
 		parallelMultiplyMatrix(a, b);
+    end = System.currentTimeMillis();
+    System.out.println("Time parallelMultiplyMatrix: " + (end - begin));
 	}
 
 	/**
