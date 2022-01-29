@@ -6,7 +6,7 @@ import java.util.concurrent.TimeUnit;
 
 public class MatrixMultiplication {
 
-	private static final int NUMBER_THREADS = 1;
+	private static final int NUMBER_THREADS = 4;
 	private static final int MATRIX_SIZE = 2000;
 
 	public static void main(String[] args) {
@@ -88,7 +88,7 @@ public class MatrixMultiplication {
 			executorService.shutdown();
 
 			// Wait for threads to finish
-			executorService.awaitTermination(5, TimeUnit.SECONDS);
+			executorService.awaitTermination(MATRIX_SIZE, TimeUnit.SECONDS);
 			System.out.println("Multiplication succeessfully terminated: " + executorService.isTerminated());
 		} catch (InterruptedException e) {
 			e.printStackTrace();
@@ -103,12 +103,12 @@ public class MatrixMultiplication {
 		private double[][] b;
 		private double[][] c;
 
-		ParallelMultiply(int row, int col, double[][] a, double[][] b, double[][] result_matrix) {
+		ParallelMultiply(int row, int col, double[][] a, double[][] b, double[][] c) {
 			this.row = row;
 			this.col = col;
 			this.a = a;
 			this.b = b;
-			this.c = result_matrix;
+			this.c = c;
 		}
 
 		public void run() {
