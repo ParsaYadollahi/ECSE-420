@@ -3,7 +3,7 @@ package ca.mcgill.ecse420.a1;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class DiningPhilosophers {
+public class DiningPhilosophersNoDeadlock {
 
 	public static void main(String[] args) {
 
@@ -23,7 +23,12 @@ public class DiningPhilosophers {
     // Initialize the threads (Philosopher) and execute the threads
     for (int i = 0; i < numberOfPhilosophers; i++) {
       leftIndex = i;
-      rightIndex = (i == numberOfPhilosophers - 1) ? 0 : i+1;
+      if (i == numberOfPhilosophers) {
+        rightIndex = leftIndex;
+        leftIndex = 0;
+      } else {
+        rightIndex = i+1;
+      }
       philosophers[i] = new Philosopher(chopsticks[leftIndex], chopsticks[rightIndex]);
 
       executorService.execute(philosophers[i]);
