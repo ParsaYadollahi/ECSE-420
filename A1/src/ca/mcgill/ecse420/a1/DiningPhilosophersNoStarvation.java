@@ -85,8 +85,9 @@ public class DiningPhilosophersNoStarvation {
             // Release the right chopstick
             System.out.println(name + " has released the left chopstick");
             leftChopstick.dropChopstick();
+            Thread.sleep(10);
           }
-          Thread.sleep((long) (Math.random() * 10));
+          Thread.sleep(10);
           // Release the left chopstick
           System.out.println(name + " has released the right chopstick");
         } catch (InterruptedException e) {
