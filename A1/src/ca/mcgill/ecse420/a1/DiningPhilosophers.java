@@ -54,7 +54,7 @@ public class DiningPhilosophers {
           // Lock the Philosopher's left chopstick
           // If the chopstick is already locked they must wait for it to be available
           synchronized(leftChopstick) {
-            System.out.println(name + " has the left left chopstick and is waiting for the right");
+            System.out.println(name + " has the left chopstick and is waiting for the right");
             Thread.sleep(10);
 
             // Lock the Philosopher's right chopstick
