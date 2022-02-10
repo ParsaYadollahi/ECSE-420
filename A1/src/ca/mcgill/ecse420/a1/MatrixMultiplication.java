@@ -7,7 +7,7 @@ import java.util.concurrent.TimeUnit;
 public class MatrixMultiplication {
 
 	private static final int NUMBER_THREADS = 4;
-	private static final int MATRIX_SIZE = 2000;
+	private static final int MATRIX_SIZE = 500;
 
 	public static void main(String[] args) {
 
@@ -15,15 +15,18 @@ public class MatrixMultiplication {
 		double[][] a = generateRandomMatrix(MATRIX_SIZE, MATRIX_SIZE);
 		double[][] b = generateRandomMatrix(MATRIX_SIZE, MATRIX_SIZE);
 
+    System.out.println("Starting sequentialMultiplyMatrix:");
     long begin = System.currentTimeMillis();
 		sequentialMultiplyMatrix(a, b);
     long end = System.currentTimeMillis();
-    System.out.println("Time sequentialMultiplyMatrix: " + (end - begin));
+    System.out.println("Done sequentialMultiplyMatrix - time = " + (end - begin));
 
+    System.out.println();
+    System.out.println("Starting parallelMultiplyMatrix:");
     begin = System.currentTimeMillis();
 		parallelMultiplyMatrix(a, b);
     end = System.currentTimeMillis();
-    System.out.println("Time parallelMultiplyMatrix: " + (end - begin));
+    System.out.println("Done parallelMultiplyMatrix - time = " + (end - begin));
 	}
 
 	/**
@@ -89,7 +92,7 @@ public class MatrixMultiplication {
 
 			// Wait for threads to finish
 			executorService.awaitTermination(MATRIX_SIZE, TimeUnit.SECONDS);
-			System.out.println("Multiplication succeessfully terminated: " + executorService.isTerminated());
+			System.out.println("Parallel multiplication succeessfully terminated: " + executorService.isTerminated());
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

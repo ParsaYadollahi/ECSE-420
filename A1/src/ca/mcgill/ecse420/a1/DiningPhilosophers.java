@@ -45,6 +45,10 @@ public class DiningPhilosophers {
       this.leftChopstick = leftChopstick;
     }
 
+    private static void think_wait_or_eat() throws InterruptedException{
+      Thread.sleep(10);
+    }
+
 		@Override
 		public void run() {
       // Keep iterating until we hit a deadlock
@@ -55,13 +59,13 @@ public class DiningPhilosophers {
           // If the chopstick is already locked they must wait for it to be available
           synchronized(leftChopstick) {
             System.out.println(name + " has the left chopstick and is waiting for the right");
-            Thread.sleep(10);
+            think_wait_or_eat();
 
             // Lock the Philosopher's right chopstick
             // If the chopstick is already locked they must wait for it to be available
             synchronized(rightChopstick) {
               System.out.println(name + " has left and right chopsticks and is eating");
-              Thread.sleep(10);
+              think_wait_or_eat();
             }
             // Release the right chopstick
             System.out.println(name + " has released the left chopstick");

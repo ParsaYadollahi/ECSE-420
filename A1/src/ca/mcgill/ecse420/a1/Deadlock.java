@@ -7,8 +7,10 @@ public class Deadlock {
   public static String Thread2 = "Thread 2";
 
   public static void main(String[] args) {
+    // Initialize threads
     DeadlockThread thread1 = new DeadlockThread(Lock1, Lock2, Thread1);
     DeadlockThread thread2 = new DeadlockThread(Lock2, Lock1, Thread2);
+    // Start executing both threads
     thread1.start();
     thread2.start();
   }
@@ -18,7 +20,6 @@ public class Deadlock {
     private String lock2;
     private String threadNumber;
 
-
     public DeadlockThread(String lock1, String lock2, String threadNumber) {
       this.lock1 = lock1;
       this.lock2 = lock2;
@@ -26,6 +27,7 @@ public class Deadlock {
     }
 
     public void run(){
+      // Lock the first lock
       synchronized(lock1) {
         System.out.println(threadNumber + ": Holding " + lock1);
 
@@ -35,11 +37,13 @@ public class Deadlock {
           e.printStackTrace();
         }
         System.out.println(threadNumber + ": waiting for " + lock2);
+        // Lock the second lock
         synchronized (lock2) {
           System.out.println(threadNumber + ": Holding lock 1 & 2");
         }
+        // Release the second lock
       }
-
+      // Release the first lock
     }
   }
 }

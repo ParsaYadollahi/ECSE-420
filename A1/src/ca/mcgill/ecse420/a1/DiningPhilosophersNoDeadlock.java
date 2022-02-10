@@ -22,16 +22,21 @@ public class DiningPhilosophersNoDeadlock {
 
     // Initialize the threads (Philosopher) and execute the threads
     for (int i = 0; i < numberOfPhilosophers; i++) {
-      leftIndex = i;
-      if (i == numberOfPhilosophers) {
-        rightIndex = leftIndex;
+      // Force the last philosopher to pick up his fist chopstick
+      //  with the right hand.
+      // This removes the circular wait which prevents
+      // the deadlock from occuring
+      if (i == numberOfPhilosophers - 1) {
         leftIndex = 0;
+        rightIndex = i;
       } else {
-        rightIndex = i+1;
+        leftIndex = i;
+        rightIndex = (i + 1) % numberOfPhilosophers;
       }
       philosophers[i] = new Philosopher(chopsticks[leftIndex], chopsticks[rightIndex]);
 
       executorService.execute(philosophers[i]);
+
       try {
         Thread.sleep(10);
       } catch (InterruptedException e) {
@@ -51,6 +56,10 @@ public class DiningPhilosophersNoDeadlock {
       this.leftChopstick = leftChopstick;
     }
 
+    private static void think_wait_or_eat() throws InterruptedException{
+      Thread.sleep(10);
+    }
+
 		@Override
 		public void run() {
       // Keep iterating until we hit a deadlock
@@ -61,13 +70,14 @@ public class DiningPhilosophersNoDeadlock {
           // If the chopstick is already locked they must wait for it to be available
           synchronized(leftChopstick) {
             System.out.println(name + " has the left left chopstick and is waiting for the right");
-            Thread.sleep(10);
+            think_wait_or_eat();
 
             // Lock the Philosopher's right chopstick
             // If the chopstick is already locked they must wait for it to be available
             synchronized(rightChopstick) {
               System.out.println(name + " has left and right chopsticks and is eating");
-              Thread.sleep(10);
+              numberEaten ++;
+              think_wait_or_eat();
             }
             // Release the right chopstick
             System.out.println(name + " has released the left chopstick");
@@ -78,6 +88,7 @@ public class DiningPhilosophersNoDeadlock {
           e.printStackTrace();
         }
       }
+      // Display number of times each philospher has eaten
       System.out.println("\n\nPhilosopher " + name.substring(name.length() - 1) + " has eaten " + numberEaten + " times.\n\n");
 		}
 	}

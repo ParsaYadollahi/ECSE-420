@@ -42,11 +42,14 @@ public class DiningPhilosophersNoStarvation {
 
     public Chopstick() {}
 
+    // Function attempting to grab the chopstick
+    // In proper terms to lock the ressource
     public boolean grabChopstick(){
       return lock.tryLock();
-
     }
 
+    // Function attempting to drop the chopstick
+    // In proper terms to unlock the ressource
     public void dropChopstick(){
       lock.unlock();
     }
@@ -62,6 +65,10 @@ public class DiningPhilosophersNoStarvation {
       this.leftChopstick = leftChopstick;
     }
 
+    private static void think_wait_or_eat() throws InterruptedException{
+      Thread.sleep(10);
+    }
+
 		@Override
 		public void run() {
       // Keep iterating until we hit a deadlock
@@ -72,28 +79,29 @@ public class DiningPhilosophersNoStarvation {
           // If the chopstick is already locked they must wait for it to be available
           if (leftChopstick.grabChopstick()) {
             System.out.println(name + " has the left chopstick and is waiting for the right");
-            Thread.sleep(10);
+            think_wait_or_eat();
 
             // Lock the Philosopher's right chopstick
             // If the chopstick is already locked they must wait for it to be available
             if (rightChopstick.grabChopstick()) {
               System.out.println(name + " has left and right chopsticks and is eating");
-              Thread.sleep(10);
+              think_wait_or_eat();
               numberEaten++;
               rightChopstick.dropChopstick();
             }
             // Release the right chopstick
             System.out.println(name + " has released the left chopstick");
             leftChopstick.dropChopstick();
-            Thread.sleep(10);
+            think_wait_or_eat();
           }
-          Thread.sleep(10);
+          think_wait_or_eat();
           // Release the left chopstick
           System.out.println(name + " has released the right chopstick");
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
       }
+      // Display number of times each philospher has eaten
       System.out.println("\n\nPhilosopher " + name.substring(name.length() - 1) + " has eaten " + numberEaten + " times.\n\n");
 		}
 	}
