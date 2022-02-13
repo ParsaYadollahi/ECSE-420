@@ -2,6 +2,7 @@ package ca.mcgill.ecse420.a2;
 
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 
 /**
@@ -63,5 +64,29 @@ public class Filterlock implements Lock {
     int thread_id = (int) Thread.currentThread().getId();
     level[thread_id].set(0);
 
+  }
+
+  @Override
+  public void lockInterruptibly() throws InterruptedException {
+    // TODO Auto-generated method stub
+
+  }
+
+  @Override
+  public boolean tryLock() {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public boolean tryLock(long time, TimeUnit unit) throws InterruptedException {
+    // TODO Auto-generated method stub
+    return false;
+  }
+
+  @Override
+  public Condition newCondition() {
+    // TODO Auto-generated method stub
+    return null;
   }
 }
