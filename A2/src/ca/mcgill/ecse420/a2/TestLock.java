@@ -7,6 +7,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.Executors;
 
 
+
 /**
  * @author Parsa Yadollahi
  * @author Nicholas Nikas
@@ -14,17 +15,20 @@ import java.util.concurrent.Executors;
 
 
 public class TestLock {
-  private static final int NUMBER_THREADS = 5;
+  private static final int NUMBER_THREADS = 50;
   private static int counter = 0;
 
-  private static Filterlock filterLock = new FilterLock(NUMBER_THREADS);
-  private static Bakerylock bakeryLock = new Bakerylock(NUMBER_THREADS);
+
+  private static FilterLock filterLock = new FilterLock(NUMBER_THREADS);
+  private static BakeryLock bakeryLock = new BakeryLock(NUMBER_THREADS);
 
   public static void main(String[] args) {
+
+    // No Lock Test
     ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_THREADS);
 
     for (int i = 0; i < NUMBER_THREADS; i++) {
-      executorService.execute(new LockRunnable(null));
+      executorService.execute(new NoLockRunnable());
     }
 
     executorService.shutdown();
@@ -36,30 +40,95 @@ public class TestLock {
 
     System.out.println("No Lock: " + counter);
 
+    // Filter Lock Test
+    counter = 0;
+    executorService = Executors.newFixedThreadPool(NUMBER_THREADS);
+    for (int i = 0; i < NUMBER_THREADS; i++) {
+      executorService.execute(new FilterLockRunnable());
+    }
+
+    executorService.shutdown();
+    try {
+      executorService.awaitTermination(10, TimeUnit.SECONDS);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    System.out.println("Filter Lock: " + counter);
+
+
+    // Bakery Lock Test
+    counter = 0;
+    executorService = Executors.newFixedThreadPool(NUMBER_THREADS);
+    for (int i = 0; i < NUMBER_THREADS; i++) {
+      executorService.execute(new BakeryLockRunnable());
+    }
+
+    executorService.shutdown();
+    try {
+      executorService.awaitTermination(10, TimeUnit.SECONDS);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
+    System.out.println("Bakery Lock: " + counter);
+
   }
 
 
-  public class LockRunnable implements Runnable {
-    public LockRunnable(Object customLock) {
-      this.customLock = customLock;
-    }
+  private static class NoLockRunnable implements Runnable {
+
+    private NoLockRunnable() {}
 
     @Override
     public void run() {
       try {
-        if (customLock != null) {
-          customLock.lock();
-        }
         if (counter < 5) {
           Thread.sleep(10);
-          counter ++;
+          counter++;
+        }
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  private static class FilterLockRunnable implements Runnable {
+
+    private FilterLockRunnable() {}
+
+    @Override
+    public void run() {
+      try {
+        filterLock.lock();
+        if (counter < 5) {
+          Thread.sleep(10);
+          counter++;
         }
       } catch (InterruptedException e) {
         e.printStackTrace();
       } finally {
-        if (customLock != null) {
-          customLock.unlock();
+        filterLock.unlock();
+      }
+    }
+  }
+
+  private static class BakeryLockRunnable implements Runnable {
+
+    private BakeryLockRunnable() {}
+
+    @Override
+    public void run() {
+      try {
+        bakeryLock.lock();
+        if (counter < 5) {
+          Thread.sleep(10);
+          counter++;
         }
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      } finally {
+        bakeryLock.unlock();
       }
     }
   }

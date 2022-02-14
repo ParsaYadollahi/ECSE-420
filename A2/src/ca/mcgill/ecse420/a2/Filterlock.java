@@ -11,7 +11,7 @@ import java.util.concurrent.locks.Lock;
  */
 
 
-public class Filterlock implements Lock {
+public class FilterLock implements Lock {
   // We use AtomicInteger[] instead of int[] because of the way Java manages memory
   private AtomicInteger[] level;
   private AtomicInteger[] victim;
@@ -22,16 +22,15 @@ public class Filterlock implements Lock {
    *
    * @param n thread count
   */
-  public Filterlock(int n) {
+  public FilterLock(int n) {
     level = new AtomicInteger[n];
     victim = new AtomicInteger[n];
     this.n = n;
 
-    for (int i = 1; i < n; i++) {
+    for (int i = 0; i < n; i++) {
       level[i] = new AtomicInteger();
       victim[i] = new AtomicInteger();
     }
-
   }
 
   /**
@@ -39,7 +38,7 @@ public class Filterlock implements Lock {
   */
   @Override
   public void lock() {
-    int thread_id = (int) Thread.currentThread().getId();
+    int thread_id = (int) Thread.currentThread().getId() % n;
     for (int i = 1; i < n; i++) {
       level[thread_id].set(i);
       victim[i].set(thread_id);
@@ -61,7 +60,7 @@ public class Filterlock implements Lock {
   */
   @Override
   public void unlock() {
-    int thread_id = (int) Thread.currentThread().getId();
+    int thread_id = (int) Thread.currentThread().getId() % n;
     level[thread_id].set(0);
 
   }

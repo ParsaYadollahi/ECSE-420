@@ -17,7 +17,7 @@ public class BakeryLock implements Lock {
   private AtomicInteger[] label;
   private int n;
 
-  public void Bakery(int n) {
+  public BakeryLock(int n) {
     this.n = n;
     flag = new AtomicBoolean[n];
     label = new AtomicInteger[n];
@@ -33,7 +33,7 @@ public class BakeryLock implements Lock {
    */
   @Override
   public void lock() {
-    int thread_id = (int) Thread.currentThread().getId();
+    int thread_id = (int) Thread.currentThread().getId() % n;
     flag[thread_id].set(true);
     label[thread_id].set(findMaxElement(label) + 1);
     for (int k = 0; k < n; k++) {
@@ -53,7 +53,7 @@ public class BakeryLock implements Lock {
    */
   @Override
   public void unlock() {
-    int thread_id = (int) Thread.currentThread().getId();
+    int thread_id = (int) Thread.currentThread().getId() % n;
     flag[thread_id].set(false);
   }
 
