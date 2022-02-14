@@ -15,7 +15,7 @@ import java.util.concurrent.Executors;
 
 
 public class TestLock {
-  private static final int NUMBER_THREADS = 50;
+  private static final int NUMBER_THREADS = 20;
   private static int counter = 0;
 
 
@@ -83,7 +83,7 @@ public class TestLock {
     @Override
     public void run() {
       try {
-        if (counter < 5) {
+        if (counter < 10) {
           Thread.sleep(10);
           counter++;
         }
@@ -101,7 +101,7 @@ public class TestLock {
     public void run() {
       try {
         filterLock.lock();
-        if (counter < 5) {
+        if (counter < 10) {
           Thread.sleep(10);
           counter++;
         }
@@ -121,7 +121,7 @@ public class TestLock {
     public void run() {
       try {
         bakeryLock.lock();
-        if (counter < 5) {
+        if (counter < 10) {
           Thread.sleep(10);
           counter++;
         }
