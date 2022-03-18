@@ -21,6 +21,8 @@ public class TestLock {
 
   private static FilterLock filterLock = new FilterLock(NUMBER_THREADS);
   private static BakeryLock bakeryLock = new BakeryLock(NUMBER_THREADS);
+  // private static ThirdLock thirdLock = new ThirdLock();
+  // private static VolatileExample volatileEx = new VolatileExample();
 
   public static void main(String[] args) {
 
@@ -72,6 +74,41 @@ public class TestLock {
     }
 
     System.out.println("Bakery Lock: " + counter);
+
+
+
+    // // Third Lock Test
+    // counter = 0;
+    // executorService = Executors.newFixedThreadPool(NUMBER_THREADS);
+    // for (int i = 0; i < NUMBER_THREADS; i++) {
+    //   executorService.execute(new ThirdLockRunnable());
+    // }
+
+    // executorService.shutdown();
+    // try {
+    //   executorService.awaitTermination(10, TimeUnit.SECONDS);
+    // } catch (InterruptedException e) {
+    //   e.printStackTrace();
+    // }
+
+    // System.out.println("Third Lock: " + counter);
+
+
+    // // Volatile Lock Test
+    // counter = 0;
+    // executorService = Executors.newFixedThreadPool(NUMBER_THREADS);
+    // for (int i = 0; i < NUMBER_THREADS; i++) {
+    //   executorService.execute(new VolatileRunnable());
+    // }
+
+    // executorService.shutdown();
+    // try {
+    //   executorService.awaitTermination(10, TimeUnit.SECONDS);
+    // } catch (InterruptedException e) {
+    //   e.printStackTrace();
+    // }
+
+    // System.out.println("Third Lock: " + counter);
 
   }
 
@@ -132,4 +169,36 @@ public class TestLock {
       }
     }
   }
+
+  // private static class ThirdLockRunnable implements Runnable {
+  //   private ThirdLockRunnable() {}
+
+  //   @Override
+  //   public void run() {
+  //     try {
+  //       thirdLock.lock();
+  //       System.out.println("b??????");
+  //       if (counter < 10) {
+  //         Thread.sleep(10);
+  //         counter++;
+  //       }
+  //     } catch (InterruptedException e) {
+  //       e.printStackTrace();
+  //     } finally {
+  //       System.out.println("c??????");
+  //       thirdLock.unlock();
+  //     }
+  //   }
+  // }
+
+  // private static class VolatileRunnable implements Runnable {
+
+  //   private VolatileRunnable() {}
+
+  //   @Override
+  //   public void run() {
+  //     volatileEx.reader();
+  //     volatileEx.writer();
+  //   }
+  // }
 }
