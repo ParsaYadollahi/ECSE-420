@@ -8,7 +8,7 @@ import ca.mcgill.ecse420.a3.Node;
 
 public class TestFineGrain {
   public static int NUM_THREADS = 4;
-  public static int NUM_ITEMS = 100;
+  public static int NUM_ITEMS = 10;
   public static int THREAD_ITEMS = NUM_ITEMS / NUM_THREADS;
 
   public static FineGrain<Integer> fineGrain= new FineGrain<>();
@@ -22,11 +22,8 @@ public class TestFineGrain {
 
     executorService.shutdown();
 
-    System.out.println(fineGrain.toString());
     fineGrain.printLinkedList();
-
-
-
+    System.out.println("Empty string means we've successfully found and removed every node ✅");
   }
 
   public static class NodeRunnable implements Runnable {
@@ -39,20 +36,19 @@ public class TestFineGrain {
     @Override
     public void run() {
       for (int i = 0; i < THREAD_ITEMS; i++) {
+        // System.out.println(count + i);
         if (!fineGrain.add(count + i)) {
-          System.out.println("Failed to Add");
+          System.out.println("Failed to add " + count + i);
         }
 
         if (fineGrain.contains(count + i)) {
           if (!fineGrain.remove(count + i)) {
-            System.out.println("Failed to Remove");
+            System.out.println("Failed to Remove " + count + i);
           }
         } else {
-          System.out.println("Failed to Find");
+          System.out.println("Failed to Find " + count + i);
         }
       }
     }
-
   }
-
 }

@@ -120,6 +120,9 @@ public class FineGrain<T> {
         print += " - ";
       }
     }
+    if (print == ""){
+      print = "[  ]";
+    }
     System.out.println(print);
   }
 
