@@ -3,10 +3,11 @@ package ca.mcgill.ecse420.a3;
 import ca.mcgill.ecse420.a3.Node;
 
 public class FineGrain<T> {
-  private Node head;
+  private static Node head;
 
   public FineGrain() {
     head = new Node<>(Integer.MAX_VALUE);
+    head.next = new Node<>(Integer.MAX_VALUE);
   }
 
 
@@ -30,7 +31,7 @@ public class FineGrain<T> {
           return false;
         }
 
-        Node newNode = new Node(item);
+        Node newNode = new Node<T>(item);
         newNode.next = curr;
         prev.next = newNode;
         return true;
@@ -104,4 +105,34 @@ public class FineGrain<T> {
       prev.unlock();
     }
   }
+
+
+  public static void printLinkedList() {
+    Node curr = head.next;
+    String print = "";
+
+    while(curr.item != null) {
+      print += "[ ";
+      print += curr.item.toString();
+      curr = curr.next;
+      print += " ]";
+      if (curr.next != null){
+        print += " - ";
+      }
+    }
+    System.out.println(print);
+  }
+
+  // @Override
+  //   public synchronized String toString() {
+  //       Node curr = head.next;
+  //       StringBuilder sb = new StringBuilder("[ ");
+
+  //       while (curr.item != null) {
+  //           sb.append(curr.item.toString()).append(" ");
+  //           curr = curr.next;
+  //       }
+  //       sb.append("]");
+  //       return sb.toString();
+  //   }
 }
