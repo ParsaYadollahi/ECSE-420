@@ -2,17 +2,13 @@ package ca.mcgill.ecse420.a3;
 
 public class SeqMatrixVectorMultiplic {
 
-  public static void main(String[] args) {
-
-  }
-
-
+  public static void main(String[] args) {}
 
   /**
-	 * Returns the result of a sequential matrix multiplication
-	 * The two matrices are randomly generated
-	 * @param matrix is the first matrix
-	 * @param vector is the second matrix
+	 * Returns the result of a sequential matrix and vector multiplication
+	 * The Matrix and vector are randomly generated
+	 * @param matrix is the matrix
+	 * @param vector is the vector
 	 * @return the result of the multiplication
 	 * */
   public static double[] sequentialMatrixVectorMultiplication(double[][] matrix, double[] vector) {
@@ -32,7 +28,6 @@ public class SeqMatrixVectorMultiplic {
     }
     return vector_res;
   }
-
 
   /**
    * Code taken from Assignment 1
