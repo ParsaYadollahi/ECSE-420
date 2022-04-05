@@ -8,7 +8,7 @@ import ca.mcgill.ecse420.a3.FineGrain;
 import ca.mcgill.ecse420.a3.Node;
 
 public class TestFineGrain {
-  public static int NUM_THREADS = 4;
+  public static int NUM_THREADS = 3;
   public static int NUM_ITEMS = 10;
   public static int THREAD_ITEMS = NUM_ITEMS / NUM_THREADS;
 
@@ -18,10 +18,9 @@ public class TestFineGrain {
     ExecutorService executorService = Executors.newFixedThreadPool(NUM_THREADS);
 
     for (int i = 0; i < NUM_THREADS; i++){
-      executorService.execute(new NodeRunnable(i * THREAD_ITEMS));
+      executorService.execute(new NodeRunnable(i));
     }
     executorService.shutdown();
-
 
     try {
       executorService.awaitTermination(10, TimeUnit.SECONDS);
@@ -33,17 +32,21 @@ public class TestFineGrain {
   }
 
   public static class NodeRunnable implements Runnable {
-    int count;
+    int thread_num;
 
-    public NodeRunnable(int count) {
-      this.count = count;
+    public NodeRunnable(int t_num) {
+      this.thread_num = t_num;
     }
 
     @Override
     public void run() {
-      for (int i = 0; i < THREAD_ITEMS; i++) {
-        if (!fineGrain.add(count + i)) {
-          System.out.println("Failed to add " + count + i);
+      // Each thread adds THREAD_ITEMS to the linked list
+      for (int thread_item = 0; thread_item < THREAD_ITEMS; thread_item++) {
+        // Get unique integers
+        int item = thread_num + THREAD_ITEMS * thread_item;
+
+        if (!fineGrain.add(item)) {
+          System.out.println("Failed to add " + item);
         }
 
         try {
@@ -52,12 +55,12 @@ public class TestFineGrain {
           e.printStackTrace();
         }
 
-        if (fineGrain.contains(count + i)) {
-          if (!fineGrain.remove(count + i)) {
-            System.out.println("Failed to Remove " + count + i);
+        if (fineGrain.contains(item)) {
+          if (!fineGrain.remove(item)) {
+            System.out.println("Failed to Remove " + item);
           }
         } else {
-          System.out.println("Failed to Find " + count + i);
+          System.out.println("Failed to Find " + item);
         }
       }
     }

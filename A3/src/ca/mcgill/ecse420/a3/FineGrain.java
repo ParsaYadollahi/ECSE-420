@@ -10,7 +10,6 @@ public class FineGrain<T> {
     head.next = new Node<>(Integer.MAX_VALUE);
   }
 
-
   // Code taken from chapter 9
   public boolean add(T item) {
     int key = item.hashCode();
@@ -129,11 +128,12 @@ public class FineGrain<T> {
 
     // If we have no nodes, add an empty one to make it look nice nice
     if (linkedList == ""){
-      linkedList = "[  ]";
+      linkedList = "[ ]";
     }
 
     System.out.println(linkedList);
-    System.out.println("Empty string means we've successfully found and removed every node ✅");
+    if (linkedList == "[ ]") {
+      System.out.println("Successfully 1. added, 2. found and 3. removed every node ✅");
+    }
   }
-
 }
