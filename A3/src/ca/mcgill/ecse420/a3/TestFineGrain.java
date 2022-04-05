@@ -2,6 +2,7 @@ package ca.mcgill.ecse420.a3;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import ca.mcgill.ecse420.a3.FineGrain;
 import ca.mcgill.ecse420.a3.Node;
@@ -19,11 +20,16 @@ public class TestFineGrain {
     for (int i = 0; i < NUM_THREADS; i++){
       executorService.execute(new NodeRunnable(i * THREAD_ITEMS));
     }
-
     executorService.shutdown();
 
+
+    try {
+      executorService.awaitTermination(10, TimeUnit.SECONDS);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+
     fineGrain.printLinkedList();
-    System.out.println("Empty string means we've successfully found and removed every node ✅");
   }
 
   public static class NodeRunnable implements Runnable {
@@ -36,9 +42,14 @@ public class TestFineGrain {
     @Override
     public void run() {
       for (int i = 0; i < THREAD_ITEMS; i++) {
-        // System.out.println(count + i);
         if (!fineGrain.add(count + i)) {
           System.out.println("Failed to add " + count + i);
+        }
+
+        try {
+          Thread.sleep(3);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
         }
 
         if (fineGrain.contains(count + i)) {

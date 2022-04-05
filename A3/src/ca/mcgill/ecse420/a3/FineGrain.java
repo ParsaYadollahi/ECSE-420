@@ -11,6 +11,7 @@ public class FineGrain<T> {
   }
 
 
+  // Code taken from chapter 9
   public boolean add(T item) {
     int key = item.hashCode();
 
@@ -44,6 +45,7 @@ public class FineGrain<T> {
   }
 
 
+  // Code taken from chapter 9
   public boolean remove(T item) {
     Node prev = null;
     Node curr = null;
@@ -75,6 +77,8 @@ public class FineGrain<T> {
     }
   }
 
+
+  // Question 2.1
   public boolean contains(T item) {
     Node prev = null;
     Node curr = null;
@@ -93,6 +97,10 @@ public class FineGrain<T> {
           curr = curr.next;
           curr.lock();
         }
+        /*
+        Only modification to add and remove.
+        If we've found the node, we return true
+        */
         if (curr.key == key){
           return true;
         } else {
@@ -106,36 +114,26 @@ public class FineGrain<T> {
     }
   }
 
-
   public static void printLinkedList() {
     Node curr = head.next;
-    String print = "";
+    String linkedList = "";
 
     while(curr.item != null) {
-      print += "[ ";
-      print += curr.item.toString();
+      linkedList += "[ " + curr.item.toString() + " ]";
       curr = curr.next;
-      print += " ]";
+
       if (curr.next != null){
-        print += " - ";
+        linkedList += " -> ";
       }
     }
-    if (print == ""){
-      print = "[  ]";
+
+    // If we have no nodes, add an empty one to make it look nice nice
+    if (linkedList == ""){
+      linkedList = "[  ]";
     }
-    System.out.println(print);
+
+    System.out.println(linkedList);
+    System.out.println("Empty string means we've successfully found and removed every node ✅");
   }
 
-  // @Override
-  //   public synchronized String toString() {
-  //       Node curr = head.next;
-  //       StringBuilder sb = new StringBuilder("[ ");
-
-  //       while (curr.item != null) {
-  //           sb.append(curr.item.toString()).append(" ");
-  //           curr = curr.next;
-  //       }
-  //       sb.append("]");
-  //       return sb.toString();
-  //   }
 }
