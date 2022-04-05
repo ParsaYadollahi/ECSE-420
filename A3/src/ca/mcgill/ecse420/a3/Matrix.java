@@ -31,7 +31,7 @@ public class Matrix {
     return dimension;
   }
 
-  Matrix[][] split() {
+  public Matrix[][] split() {
     Matrix[][] result = new Matrix[2][2];
     int newDimension = dimension / 2;
     result[0][0] = new Matrix(data, rowDisplace, colDisplace, newDimension);

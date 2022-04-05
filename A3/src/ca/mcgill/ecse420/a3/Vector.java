@@ -29,7 +29,7 @@ public class Vector {
     return dimension;
   }
 
-  Vector[] split() {
+  public Vector[] split() {
     Vector[] result = new Vector[2];
     int newDimension = dimension / 2;
     result[0] = new Vector(data, rowDisplace, newDimension);
