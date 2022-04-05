@@ -45,4 +45,19 @@ public class SeqMatrixVectorMultiplic {
 		}
 		return matrix;
 	}
+
+  /**
+   * Code taken from Assignment 1
+	 * Populates a matrix of given size with randomly generated integers between 0-10.
+	 * @param numRows number of rows
+	 * @param numCols number of cols
+	 * @return matrix
+	 */
+	private static double[] generateRandomVector (int numRows) {
+		double vector[] = new double[numRows];
+		for (int row = 0 ; row < numRows ; row++ ) {
+				vector[row] = (double) ((int) (Math.random() * 10.0));
+		}
+		return vector;
+	}
 }
