@@ -44,7 +44,7 @@ public class Vector {
 	 * @param numCols number of cols
 	 * @return matrix
 	 */
-	private void generateRandomVector() {
+	public void generateRandomVector() {
 		for (int row = 0 ; row < dimension ; row++ ) {
 				data[row] = (double) ((int) (Math.random() * 10.0));
 		}

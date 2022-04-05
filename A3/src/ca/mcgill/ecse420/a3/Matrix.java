@@ -48,7 +48,7 @@ public class Matrix {
 	 * @param numCols number of cols
 	 * @return matrix
 	 */
-	private void generateRandomMatrix() {
+	public void generateRandomMatrix() {
 		for (int row = 0 ; row < dimension  ; row++ ) {
 			for (int col = 0 ; col < dimension ; col++ ) {
 				data[row][col] = (double) ((int) (Math.random() * 10.0));
