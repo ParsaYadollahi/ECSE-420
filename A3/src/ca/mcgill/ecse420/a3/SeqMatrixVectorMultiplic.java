@@ -23,41 +23,9 @@ public class SeqMatrixVectorMultiplic {
 
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < cols; col++) {
-        vector_res[row] = matrix[row][col] * vector[col];
+        vector_res[row] += matrix[row][col] * vector[col];
       }
     }
     return vector_res;
   }
-
-  /**
-   * Code taken from Assignment 1
-	 * Populates a matrix of given size with randomly generated integers between 0-10.
-	 * @param numRows number of rows
-	 * @param numCols number of cols
-	 * @return matrix
-	 */
-	private static double[][] generateRandomMatrix (int numRows, int numCols) {
-		double matrix[][] = new double[numRows][numCols];
-		for (int row = 0 ; row < numRows ; row++ ) {
-			for (int col = 0 ; col < numCols ; col++ ) {
-				matrix[row][col] = (double) ((int) (Math.random() * 10.0));
-			}
-		}
-		return matrix;
-	}
-
-  /**
-   * Code taken from Assignment 1
-	 * Populates a matrix of given size with randomly generated integers between 0-10.
-	 * @param numRows number of rows
-	 * @param numCols number of cols
-	 * @return matrix
-	 */
-	private static double[] generateRandomVector (int numRows) {
-		double vector[] = new double[numRows];
-		for (int row = 0 ; row < numRows ; row++ ) {
-				vector[row] = (double) ((int) (Math.random() * 10.0));
-		}
-		return vector;
-	}
 }
