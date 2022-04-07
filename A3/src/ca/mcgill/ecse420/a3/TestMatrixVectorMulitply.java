@@ -5,14 +5,16 @@ import java.util.concurrent.ExecutionException;
 public class TestMatrixVectorMulitply {
 
   public static void main(String [] args) throws InterruptedException, ExecutionException {
-    Vector v = new Vector(128);
-    v.generateRandomVector();
-
-    Matrix m = new Matrix(128);
+    Matrix m = new Matrix(3);
     m.generateRandomMatrix();
+    m.printMatrix();
 
+    Vector v = new Vector(3);
+    v.generateRandomVector();
+    v.printVector();
+
+    System.out.println();
     Vector res = ParallelMatrixVectorMulti.parallelMatrixVectorMultiplication(m, v);
-    System.out.println(res);
+    res.printVector();
   }
-
 }

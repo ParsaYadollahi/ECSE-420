@@ -46,8 +46,18 @@ public class Vector {
 	 */
 	public void generateRandomVector() {
 		for (int row = 0 ; row < dimension ; row++ ) {
-				data[row] = (double) ((int) (Math.random() * 10.0));
+				data[row] = (double) ((Math.random() * 10.0));
 		}
 	}
 
+  /**
+	 * Prints content of a Vector
+	 * @params None
+	 * @return None
+	 */
+	public void printVector() {
+		for (int row = 0 ; row < dimension ; row++ ) {
+				System.out.print("| " + data[row] + " |\n");
+		}
+	}
 }

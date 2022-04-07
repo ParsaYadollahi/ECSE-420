@@ -51,8 +51,22 @@ public class Matrix {
 	public void generateRandomMatrix() {
 		for (int row = 0 ; row < dimension  ; row++ ) {
 			for (int col = 0 ; col < dimension ; col++ ) {
-				data[row][col] = (double) ((int) (Math.random() * 10.0));
+				data[row][col] = (double) ((Math.random() * 10.0));
 			}
+		}
+	}
+
+  /**
+	 * Prints a matrix
+   * @params None
+	 * @return None
+	 */
+	public void printMatrix() {
+		for (int row = 0 ; row < dimension  ; row++ ) {
+			for (int col = 0 ; col < dimension ; col++ ) {
+				System.out.print(data[row][col] + " ");
+			}
+      System.out.println();
 		}
 	}
 }
