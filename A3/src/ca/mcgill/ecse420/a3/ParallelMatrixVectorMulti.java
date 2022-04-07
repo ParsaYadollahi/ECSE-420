@@ -21,7 +21,6 @@ public class ParallelMatrixVectorMulti {
 
     Future<?> future = executorService.submit(new MulTask(matrix, vector, result, executorService));
     future.get();
-    System.out.println(future);
 
     executorService.shutdown();
 
@@ -29,7 +28,7 @@ public class ParallelMatrixVectorMulti {
 
     long endParallelMultiply = System.nanoTime() / 1000000;
     long time = endParallelMultiply - startParallelMultiply;
-    System.out.println(time);
+    System.out.println("Time taken: " + time);
 
     // result.printVector();
     return result;
@@ -49,32 +48,33 @@ public class ParallelMatrixVectorMulti {
     Vector b, c, lhs, rhs;
     ExecutorService exec;
 
-
-    MulTask(Matrix a, Vector b, Vector c, ExecutorService executorService) {
+    MulTask(Matrix a, Vector b, Vector c, ExecutorService exec) {
       this.a = a;
       this.b = b;
       this.c = c;
-      this.exec = executorService;
+      this.exec = exec;
 
-      lhs = new Vector(b.getDim());
-      rhs = new Vector(b.getDim());
+      lhs = new Vector(a.getDim());
+      rhs = new Vector(a.getDim());
     }
 
     @Override
     public void run() {
       try {
-        if (a.getDim() != 1) {
+        if (a.getDim() == 1) {
+          c.set(0, a.get(0, 0) * b.get(0));
+        } else {
           Matrix[][] aa = a.split();
-          Vector[] bb = b.split(), ll = lhs.split(), rr = rhs.split();
+          Vector[] bb = b.split();
+          Vector[] ll = lhs.split(), rr = rhs.split();
 
           Future<?>[][] future = (Future<?>[][]) new Future[2][2];
 
           for (int i = 0; i < 2; i++) {
-            MulTask a = new MulTask(aa[i][0], bb[0], ll[i], exec);
-            MulTask b = new MulTask(aa[i][1], bb[1], rr[i], exec);
-
-            future[i][0] = exec.submit(a);
-            future[i][1] = exec.submit(b);
+            future[i][0] =
+                exec.submit(new MulTask(aa[i][0], bb[0], ll[i], exec));
+            future[i][1] =
+                exec.submit(new MulTask(aa[i][1], bb[1], rr[i], exec));
           }
 
           for (int i = 0; i < 2; i ++) {
@@ -85,9 +85,6 @@ public class ParallelMatrixVectorMulti {
 
           Future<?> done = exec.submit(new AddTask(lhs, rhs, c, exec));
           done.get();
-
-        } else {
-          c.set(0, a.get(0, 0) * b.get(0));
         }
 
       } catch (Exception e) {
@@ -99,35 +96,33 @@ public class ParallelMatrixVectorMulti {
 
 
   static class AddTask implements Runnable {
-    Vector resultVector;
-    Vector resVectL, resVectR;
-    ExecutorService executorService;
+    Vector c;
+    Vector a, b;
+    ExecutorService exec;
 
-    AddTask(Vector resVectL, Vector rightVectR, Vector resultVector, ExecutorService executorService) {
-      this.resultVector = resultVector;
-      this.resVectL = resVectL;
-      this.resVectR = rightVectR;
-      this.executorService = executorService;
+    AddTask(Vector a, Vector b, Vector c, ExecutorService exec) {
+      this.c = c;
+      this.a = a;
+      this.b = b;
+      this.exec = exec;
     }
 
     @Override
     public void run() {
       try {
-        if (resVectR.getDim() != 1) {
-          Vector[] resVectLSplit = resVectL.split();
-          Vector[] subvResVectSplit = resVectR.split();
-          Vector[] resultSplit = resultVector.split();
+        if (a.getDim() == 1) {
+          c.set(0, a.get(0) + b.get(0));
+        } else {
+          Vector[] aa = a.split(), bb = b.split(), cc = c.split();
 
           Future<?>[] future = (Future<?>[]) new Future[2];
 
           for (int i = 0; i < 2; i++) {
-            future[i] = executorService.submit(new AddTask(resVectLSplit[i], subvResVectSplit[i], resultSplit[i], executorService));
+            future[i] = exec.submit(new AddTask(aa[i], bb[i], cc[i], exec));
           }
           for (int i = 0; i < 2; i ++) {
             future[i].get();
           }
-        } else {
-          resultVector.set(0, resVectL.get(0) + resVectR.get(0));
         }
       } catch (Exception e) {
         e.printStackTrace();
