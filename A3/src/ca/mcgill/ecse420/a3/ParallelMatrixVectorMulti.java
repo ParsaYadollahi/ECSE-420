@@ -10,16 +10,16 @@ public class ParallelMatrixVectorMulti {
 
 
   public static Vector parallelMatrixVectorMultiplication(Matrix matrix, Vector vector) throws InterruptedException, ExecutionException{
-    if (matrix.getDimension() != vector.getDimension()) {
+    if (matrix.getDim() != vector.getDim()) {
       throw new ArithmeticException("Invalid Matrix dimensions");
     }
 
     long startParallelMultiply = System.nanoTime() / 1000000;
 
-    Vector result = new Vector(vector.getDimension());
+    Vector result = new Vector(vector.getDim());
     ExecutorService executorService = Executors.newCachedThreadPool();
 
-    Future<?> future = executorService.submit(new MultiplyTask(matrix, vector, result, executorService));
+    Future<?> future = executorService.submit(new MulTask(matrix, vector, result, executorService));
     future.get();
     System.out.println(future);
 
@@ -38,45 +38,43 @@ public class ParallelMatrixVectorMulti {
 
   /**
 	 * Splits the matrix and vector in 2 until it can no longer be split
-	 * @param matrix matrix to multiply
-	 * @param vector vector to multiply
-   * @param resultVector result vector
-   * @param executorService ExecutorService
+	 * @param a matrix to multiply
+	 * @param b vector to multiply
+   * @param c result vector
+   * @param exec ExecutorService
 	 * @return matrix
 	 */
-  static class MultiplyTask implements Runnable {
-    Matrix matrix;
-    Vector vector, resultVector, resVectL, resVectR;
-    ExecutorService executorService;
-    int left = 0, right = 1;
+  static class MulTask implements Runnable {
+    Matrix a;
+    Vector b, c, lhs, rhs;
+    ExecutorService exec;
 
 
-    MultiplyTask(Matrix matrix, Vector vector, Vector resultVector, ExecutorService executorService) {
-      this.matrix = matrix;
-      this.vector = vector;
-      this.resultVector = resultVector;
-      this.executorService = executorService;
+    MulTask(Matrix a, Vector b, Vector c, ExecutorService executorService) {
+      this.a = a;
+      this.b = b;
+      this.c = c;
+      this.exec = executorService;
 
-      resVectL = new Vector(vector.getDimension());
-      resVectR = new Vector(vector.getDimension());
+      lhs = new Vector(b.getDim());
+      rhs = new Vector(b.getDim());
     }
 
     @Override
     public void run() {
       try {
-        int n = matrix.getDimension();
-        if (n != 1) {
-          Matrix[][] splitMat = matrix.split();
-          Vector[] splitVect = vector.split(), splitResVectL = resVectL.split(), splitResVectR = resVectR.split();
+        if (a.getDim() != 1) {
+          Matrix[][] aa = a.split();
+          Vector[] bb = b.split(), ll = lhs.split(), rr = rhs.split();
 
           Future<?>[][] future = (Future<?>[][]) new Future[2][2];
 
           for (int i = 0; i < 2; i++) {
-            MultiplyTask a = new MultiplyTask(splitMat[i][left], splitVect[left], splitResVectL[i], executorService);
-            MultiplyTask b = new MultiplyTask(splitMat[i][right], splitVect[right], splitResVectR[i], executorService);
+            MulTask a = new MulTask(aa[i][0], bb[0], ll[i], exec);
+            MulTask b = new MulTask(aa[i][1], bb[1], rr[i], exec);
 
-            future[i][left] = executorService.submit(a);
-            future[i][right] = executorService.submit(b);
+            future[i][0] = exec.submit(a);
+            future[i][1] = exec.submit(b);
           }
 
           for (int i = 0; i < 2; i ++) {
@@ -85,11 +83,11 @@ public class ParallelMatrixVectorMulti {
             }
           }
 
-          Future<?> merge = executorService.submit(new AddTask(resultVector, resVectL, resVectR, executorService));
-          merge.get();
+          Future<?> done = exec.submit(new AddTask(lhs, rhs, c, exec));
+          done.get();
 
         } else {
-          resultVector.set(0, resultVector.get(0) + matrix.get(0, 0) * vector.get(0));
+          c.set(0, a.get(0, 0) * b.get(0));
         }
 
       } catch (Exception e) {
@@ -105,7 +103,7 @@ public class ParallelMatrixVectorMulti {
     Vector resVectL, resVectR;
     ExecutorService executorService;
 
-    AddTask(Vector resultVector, Vector resVectL, Vector rightVectR, ExecutorService executorService) {
+    AddTask(Vector resVectL, Vector rightVectR, Vector resultVector, ExecutorService executorService) {
       this.resultVector = resultVector;
       this.resVectL = resVectL;
       this.resVectR = rightVectR;
@@ -115,7 +113,7 @@ public class ParallelMatrixVectorMulti {
     @Override
     public void run() {
       try {
-        if (resVectR.getDimension() != 1) {
+        if (resVectR.getDim() != 1) {
           Vector[] resVectLSplit = resVectL.split();
           Vector[] subvResVectSplit = resVectR.split();
           Vector[] resultSplit = resultVector.split();
@@ -123,7 +121,7 @@ public class ParallelMatrixVectorMulti {
           Future<?>[] future = (Future<?>[]) new Future[2];
 
           for (int i = 0; i < 2; i++) {
-            future[i] = executorService.submit(new AddTask(resultSplit[i], resVectLSplit[i], subvResVectSplit[i], executorService));
+            future[i] = executorService.submit(new AddTask(resVectLSplit[i], subvResVectSplit[i], resultSplit[i], executorService));
           }
           for (int i = 0; i < 2; i ++) {
             future[i].get();

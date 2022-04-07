@@ -27,7 +27,7 @@ public class Matrix {
     data[row + rowDisplace][col + colDisplace] = val;
   }
 
-  public int getDimension() {
+  public int getDim() {
     return dimension;
   }
 

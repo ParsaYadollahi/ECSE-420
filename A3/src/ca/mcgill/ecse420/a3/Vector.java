@@ -25,7 +25,7 @@ public class Vector {
     data[row + rowDisplace] = value;
   }
 
-  public int getDimension() {
+  public int getDim() {
     return dimension;
   }
 
