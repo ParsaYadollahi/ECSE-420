@@ -34,15 +34,6 @@ public class ParallelMatrixVectorMulti {
     return result;
   }
 
-
-  /**
-	 * Splits the matrix and vector in 2 until it can no longer be split
-	 * @param a matrix to multiply
-	 * @param b vector to multiply
-   * @param c result vector
-   * @param exec ExecutorService
-	 * @return matrix
-	 */
   static class MulTask implements Runnable {
     Matrix a;
     Vector b, c, lhs, rhs;
@@ -63,6 +54,8 @@ public class ParallelMatrixVectorMulti {
       try {
         if (a.getDim() == 1) {
           c.set(0, a.get(0, 0) * b.get(0));
+          c.printVector();
+          System.out.println();
         } else {
           Matrix[][] aa = a.split();
           Vector[] bb = b.split();
@@ -112,6 +105,13 @@ public class ParallelMatrixVectorMulti {
       try {
         if (a.getDim() == 1) {
           c.set(0, a.get(0) + b.get(0));
+          // System.out.println();
+          // System.out.println("a");
+          // a.printVector();
+          // b.printVector();
+          // c.printVector();
+          // System.out.println("b");
+          // System.out.println();
         } else {
           Vector[] aa = a.split(), bb = b.split(), cc = c.split();
 
