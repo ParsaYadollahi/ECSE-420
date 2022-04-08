@@ -57,7 +57,20 @@ public class Vector {
 	 */
 	public void printVector() {
 		for (int row = 0 ; row < dimension ; row++ ) {
-				System.out.print("| " + data[row] + " |\n");
+				System.out.println(data[row]);
 		}
+    System.out.println();
 	}
+
+  public boolean isSame(Vector v) {
+    if (v.dimension != dimension) {
+      return false;
+    }
+    for (int row = 0; row < v.dimension; row ++) {
+      if (v.get(row) != data[row]) {
+        return false;
+      }
+    }
+    return true;
+  }
 }

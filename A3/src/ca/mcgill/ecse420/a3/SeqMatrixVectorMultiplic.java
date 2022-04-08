@@ -11,11 +11,11 @@ public class SeqMatrixVectorMultiplic {
 	 * @param vector is the vector
 	 * @return the result of the multiplication
 	 * */
-  public static double[] sequentialMatrixVectorMultiplication(double[][] matrix, double[] vector) {
-    int rows = matrix.length;
-    int cols = matrix[0].length;
+  public static Vector sequentialMatrixVectorMultiplication(Matrix matrix, Vector vector) {
+    int rows = matrix.dimension;
+    int cols = vector.dimension;
 
-    double[] vector_res = new double[rows];
+    Vector vector_res = new Vector(rows);
 
     if (rows != cols) {
       throw new ArithmeticException("Invalid Matrix dimensions");
@@ -23,7 +23,7 @@ public class SeqMatrixVectorMultiplic {
 
     for (int row = 0; row < rows; row++) {
       for (int col = 0; col < cols; col++) {
-        vector_res[row] += matrix[row][col] * vector[col];
+        vector_res.set(row, vector_res.get(row) + matrix.get(row, col) * vector.get(col));
       }
     }
     return vector_res;
