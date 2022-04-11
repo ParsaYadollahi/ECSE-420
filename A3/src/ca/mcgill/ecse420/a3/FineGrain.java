@@ -102,8 +102,6 @@ public class FineGrain<T> {
         */
         if (curr.key == key){
           return true;
-        } else {
-          return false;
         }
       } finally {
         curr.unlock();
@@ -111,6 +109,7 @@ public class FineGrain<T> {
     } finally {
       prev.unlock();
     }
+    return false;
   }
 
   public static void printLinkedList() {

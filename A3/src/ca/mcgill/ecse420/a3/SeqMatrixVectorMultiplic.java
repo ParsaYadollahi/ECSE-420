@@ -11,7 +11,7 @@ public class SeqMatrixVectorMultiplic {
 	 * @param vector is the vector
 	 * @return the result of the multiplication
 	 * */
-  public static Vector sequentialMatrixVectorMultiplication(Matrix matrix, Vector vector) {
+  public static Vector multiply(Matrix matrix, Vector vector) {
     int rows = matrix.dimension;
     int cols = vector.dimension;
 

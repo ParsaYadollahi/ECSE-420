@@ -15,7 +15,7 @@ public class ParallelMatrixVectorMulti {
     this.NUM_THREADS = NUM_THREADS;
   }
 
-  public static Vector mulitply(Matrix a, Vector b, int num_threads) {
+  public static Vector multiply(Matrix a, Vector b, int num_threads) {
     Vector c = new Vector(b.dimension);
     int m_size = a.dimension;
     ExecutorService exec = Executors.newFixedThreadPool(num_threads);

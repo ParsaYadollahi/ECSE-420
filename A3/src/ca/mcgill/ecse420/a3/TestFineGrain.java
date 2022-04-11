@@ -50,7 +50,7 @@ public class TestFineGrain {
         }
 
         try {
-          Thread.sleep(3);
+          Thread.sleep(10);
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
