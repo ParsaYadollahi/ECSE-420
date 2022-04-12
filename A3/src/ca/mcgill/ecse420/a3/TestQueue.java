@@ -20,6 +20,14 @@ public class TestQueue {
         System.out.println(lbq.queue[lbq.head]); // Should output 3
         System.out.println(lbq.queue[lbq.tail]); // Should output 3
 
+        lbq.dequeue();
+        lbq.dequeue();
+        lbq.dequeue();
+        lbq.dequeue();
+
+        System.out.println(lbq.queue[lbq.head]); // Should output null
+        System.out.println(lbq.queue[lbq.tail]); // Should output null
+
         LockFreeQueue<Integer> lfq = new LockFreeQueue<>(4);
         lfq.enqueue(1);
         lfq.enqueue(2);
@@ -36,5 +44,13 @@ public class TestQueue {
 
         System.out.println(lfq.queue.get(lfq.head.get())); // Should output 3
         System.out.println(lfq.queue.get(lfq.tail.get())); // Should output 3
+
+        lfq.dequeue();
+        lfq.dequeue();
+        lfq.dequeue();
+        lfq.dequeue();
+
+        System.out.println(lfq.queue.get(lfq.head.get())); // Should output null
+        System.out.println(lfq.queue.get(lfq.tail.get())); // Should output null
     }
 }
